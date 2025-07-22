@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import type { OpenAIMessage } from "@/types/chat";
 
 // Zod validation schema for the request body
 const chatRequestSchema = z.object({
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest) {
 
     // Build the conversation for Gemini
     const geminiMessages = [
-      ...conversationHistory.map((msg: any) => ({
+      ...conversationHistory.map((msg: OpenAIMessage) => ({
         role: msg.role,
         parts: [{ text: msg.content }],
       })),
