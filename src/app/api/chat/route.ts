@@ -24,8 +24,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validatedData: ChatRequest = chatRequestSchema.parse(body);
 
-    const { message, conversationHistory }: { message: string; conversationHistory: { role: "user" | "assistant"; content: string }[] } = validatedData;
-
+    const { message, conversationHistory } = validatedData;
     // Build the conversation for Gemini
     const geminiMessages = [
       ...conversationHistory.map((msg) => ({
