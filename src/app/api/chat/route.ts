@@ -16,17 +16,19 @@ const chatRequestSchema = z.object({
     .default([]),
 });
 
+type ChatRequest = z.infer<typeof chatRequestSchema>;
+
 export async function POST(request: NextRequest) {
   try {
     // Parse and validate the request body
     const body = await request.json();
-    const validatedData = chatRequestSchema.parse(body);
+    const validatedData: ChatRequest = chatRequestSchema.parse(body);
 
     const { message, conversationHistory } = validatedData;
 
     // Build the conversation for Gemini
     const geminiMessages = [
-      ...conversationHistory.map((msg: { role: "user" | "assistant"; content: string }) => ({
+      ...conversationHistory.map((msg) => ({
         role: msg.role,
         parts: [{ text: msg.content }],
       })),
