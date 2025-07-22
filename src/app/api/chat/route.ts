@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
     // Build the conversation for Gemini
     const geminiMessages = [
-      ...conversationHistory.map((msg: OpenAIMessage) => ({
+      ...conversationHistory.map((msg: { role: "user" | "assistant"; content: string }) => ({
         role: msg.role,
         parts: [{ text: msg.content }],
       })),
